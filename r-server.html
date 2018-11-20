@@ -1,0 +1,44 @@
+<script type="text/javascript">
+    RED.nodes.registerType('R Server',{
+        category: 'config',
+        defaults: {
+            host: { value: "", required: true },
+            port: {value: 6311, validate: RED.validators.number()},
+            name: {value: ""}
+        },
+        label: function() {
+            return this.name || `${this.host}:${this.port}`;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="R Server">
+    <div class="form-row">
+        <label for="node-config-input-name"><i class="icon-bookmark"></i> Name</label>
+        <input type="text" id="node-config-input-name" placeholder="R Server">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="fa fa-globe"></i> Host</label>
+        <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"> Port</label>
+        <input type="text" id="node-config-input-port">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="R Server">
+    <p>Configuration for a connection to a R server.</p>
+    <p>This configuration will create a single connection to a host running 
+        <code>RServe</code> which can then be reused by several R related nodes
+    </p>
+    <h3>Parameters</h3>
+    The following parameters are required to initiate a connection to a
+    R server.
+    <h4>Host</h4>
+    The host running Rserve.
+    <h4>Port</h4>
+    The port Rserve is listening (default: <code>6311</code>)
+    <h4>Name</h4>
+    The name of this configuration (default: <code>host:port</code>)
+</script>

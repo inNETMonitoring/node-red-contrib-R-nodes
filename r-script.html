@@ -1,0 +1,51 @@
+<script type="text/javascript">
+    RED.nodes.registerType('R Script',{
+        category: 'R',
+        color: '#a6bbcf',
+        defaults: {
+            RServer: {value:"", type: "R Server"},
+            script: {value: ""},
+            name: {value: ""}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "function.png",
+        label: function() {
+            return this.name || 'R Script';
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="R Script">
+    <div class="form-row">
+        <label for="node-input-RServer"><i class="icon-bookmark"></i> Server</label>
+        <input type="text" id="node-input-RServer">
+    </div>
+    <div class="form-row">
+        <label for="node-input-script"><i class="fa fa-code"></i> Code</label>
+        <textarea type="text" id="node-input-script" rows="10" cols="80" style="width: 70%;">
+        </textarea>
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-bookmark"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="R Script">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="R Script">
+    <p>Run some R code on a R server.</p>
+    <p>This node passes the complete <code>msg</code> object to the R server
+       where it gets converted to a R object. You can manipulate the complete
+       object inside your R script using standard R code. After successful
+       execution, the <code>msg</code> object is sent back to this node and
+       sent to the next node(s).
+    </p>
+    <h3>Parameters</h3>
+    <h4>Server</h4>
+    The R server connection to where the R script is executed.
+    <h4>Code</h4>
+    Your R script. You can use all libraries installed on the
+    selected <code>Server</code>
+    <h4>Name</h4>
+    The name of node.
+</script>

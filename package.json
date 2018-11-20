@@ -1,0 +1,19 @@
+{
+  "name": "red-contrib-r-nodes",
+  "version": "0.1.0",
+  "description": "Node RED modules for the statistical computing language R",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "R Server": "r-server.js",
+      "R Script": "r-script.js"
+    }
+  },
+  "author": "Michael Blättler <michael.blaettler@innetag.ch>",
+  "license": "MIT",
+  "dependencies": {
+    "rserve-client": "^0.3.5"
+  }
+}
