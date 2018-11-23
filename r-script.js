@@ -11,8 +11,8 @@ module.exports = function(RED) {
             jsonStr = jsonStr.replace(/'/g, "\\'") // escape '
             this.RServer.evaluate(
             `
-                library(rjson);
-                msg <- fromJSON(json_str='${jsonStr}');
+                library(jsonlite);
+                msg <- fromJSON('${jsonStr}');
                 ${this.script}
                 msg_json <- toJSON(msg);
                 print(msg_json);
