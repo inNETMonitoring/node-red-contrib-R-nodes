@@ -6,6 +6,10 @@
             port: {value: 6311, validate: RED.validators.number()},
             name: {value: ""}
         },
+        credentials: {
+            username: {type: "text"},
+            password: {type: "password"}
+        },
         label: function() {
             return this.name || `${this.host}:${this.port}`;
         }
@@ -25,6 +29,14 @@
         <label for="node-config-input-port"> Port</label>
         <input type="text" id="node-config-input-port">
     </div>
+    <div class="form-row">
+        <label for="node-config-input-username"><i class="fa fa-user"></i> Username</label>
+        <input type="text" id="node-config-input-username">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-password"><i class="fa fa-key"></i> Password</label>
+        <input type="password" id="node-config-input-password">
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="R Server">
@@ -39,6 +51,10 @@
     The host running Rserve.
     <h4>Port</h4>
     The port Rserve is listening (default: <code>6311</code>)
+    <h4>Username</h4>
+    The username for RServe
+    <h4>Password</h4>
+    The password for RServe
     <h4>Name</h4>
     The name of this configuration (default: <code>host:port</code>)
 </script>

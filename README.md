@@ -8,6 +8,28 @@ node RED.
 There's no package on any repository yet. If you want to be an early adaptor
 please clone this repository and install the package manually.
 
+## Setup your R-Server
+
+Install R on the computer you'd like to use as the R server. It can be
+downloaded on the [R Project Website](https://www.r-project.org/).
+
+After installation of R install all requirements/libraries required for the
+remote code execution. Start R and execute the following commands:
+
+```R
+install.packages('RJSONIO')
+install.packages('Rserve')
+```
+
+## Start your R-Server
+
+Start the R interpreter and run the following commands to start `Rserve`.
+
+```R
+library(Rserve)
+Rserve()
+```
+
 ## Available Nodes
 
 ### R Server

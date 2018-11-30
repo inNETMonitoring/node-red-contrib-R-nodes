@@ -1,105 +1,70 @@
 module.exports = function(RED) {
     "use strict"
 
-    var r = require('rserve-client')
+    var r = require('rio')
 
     function RServer(config) {
         RED.nodes.createNode(this, config)
 
-        // States
-        this.connected = false
-        this.closing = false
+        this.host = config.host || '127.0.0.1'
+        this.port = config.port || 6311
 
-        this.users = {}
+        this.user = this.credentials.username || ''
+        this.password = this.credentials.password || ''
+
+        this.connected = false
+        this.nodes = {}
 
         this.register = (rNode) => {
-            this.users[rNode.id] = rNode
-            if (Object.keys(this.users).length === 1) {
-                this.connect()
+            this.nodes[rNode.id] = rNode
+            if (Object.keys(this.nodes).length === 1) {
+                // Connection test
+                this.evaluate('version', (err, msg) => {})
             }
         }
 
         this.deregister = (rNode, done) => {
-            delete this.users[rNode.id];
-            if (!this.connected) {
-                done()
-            }
-            if (Object.keys(this.users).length === 0) {
-                this.disconnect()
-            }
+            delete this.nodes[rNode.id];
             done()
         }
 
-        this.connectionEstablished = (err, client) => {
-            if (!err) {
-                this.client = client
-                this.connected = true
-                for (var id in this.users) {
-                    if (this.users.hasOwnProperty(id)) {
-                        this.users[id].status({fill: "green", shape: "dot", text: "node-red:common.status.connected"})
-                    }
-                }
-            } else {
-                this.error(`Could not connect to R: ${err}`)
-                this.connected = false
-                for (var id in this.users) {
-                    if (this.users.hasOwnProperty(id)) {
-                        this.users[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
-                    }
-                }
-            }
-        }
-
-        this.connect = () => {
-            if (!this.connected) {
-                r.connect(config.host, config.port, this.connectionEstablished)
-            }
-        }
-
-        this.disconnect = () => {
-            this.client.end()
-            this.connected = false
-            for (var id in this.users) {
-                if (this.users.hasOwnProperty(id)) {
-                    this.users[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
-                }
-            }
-        }
-
-        this.on('close', (done) => {
-            if (this.connected) {
-                this.disconnect
-            }
-            done()
-        })
-
-        this.evaluate = (cmd, cb) => {
-            if (!this.client) {
-                this.connect()
-                return cb(new Error('No connection to R-Server established yet'), null)
-            }
-
-            this.client.evaluate(cmd, (err, ans) => {
-                if (!err) {
-                    if (!this.connected) {
-                        // Server could reconnect
-                        this.connectionEstablished(err, this.client)
-                    }
-                    const msg = JSON.parse(ans)
-                    cb(null, msg)
-                } else {
+        this.evaluate = (cmd, cb) =>  {
+            config = {
+                command: cmd,
+                callback: (err, message) => {
                     if (err.code === "ECONNREFUSED") {
                         this.connected = false
-                        for (var id in this.users) {
-                            if (this.users.hasOwnProperty(id)) {
-                                this.users[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
+                        for (var id in this.nodes) {
+                            if (this.nodes.hasOwnProperty(id)) {
+                                this.nodes[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
+                            }
+                        }
+                    } else if (!err && !this.connected) {
+                        this.connected = true
+                        for (var id in this.nodes) {
+                            if (this.nodes.hasOwnProperty(id)) {
+                                this.nodes[id].status({fill: "green", shape: "dot", text: "node-red:common.status.connected"});
                             }
                         }
                     }
-                    cb(err, null)
-                }
-            })
+                    cb(err, message)
+                },
+
+                host: this.host,
+                port: this.port,
+
+                user: this.user,
+                password: this.password
+            }
+
+            r.evaluate(config)
         }
     }
-    RED.nodes.registerType("R Server", RServer)
+
+    RED.nodes.registerType("R Server", RServer, {
+        credentials: {
+            username: {type: "text"},
+            password: {type: "password"}
+        }
+    })
 }

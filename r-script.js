@@ -11,14 +11,13 @@ module.exports = function(RED) {
             jsonStr = jsonStr.replace(/'/g, "\\'") // escape '
             this.RServer.evaluate(
             `
-                library(jsonlite);
+                library(RJSONIO);
                 msg <- fromJSON('${jsonStr}');
                 ${this.script}
                 msg_json <- toJSON(msg);
-                print(msg_json);
             `, (err, msg) => {
                 if (!err) {
-                    this.send(msg)
+                    this.send(JSON.parse(msg))
                 } else {
                     this.error(`Could not execute R Script: ${err}`)
                 }
