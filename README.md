@@ -5,8 +5,8 @@ node RED.
 
 ## Installation
 
-There's no package on any repository yet. If you want to be an early adaptor
-please clone this repository and install the package manually.
+Execute `npm install node-red-contrib-r-nodes` inside your Node RED root
+directory.
 
 ## Setup your R-Server
 

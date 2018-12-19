@@ -1,7 +1,14 @@
 {
-  "name": "red-contrib-r-nodes",
-  "version": "0.1.0",
+  "name": "@innetmonitoring/node-red-contrib-r-nodes",
+  "version": "0.1.1",
   "description": "Node RED modules for the statistical computing language R",
+  "homepage": "https://github.com/inNETMonitoring/node-red-contrib-R-nodes",
+  "keywords": [
+    "R",
+    "Rlang",
+    "Node RED",
+    "Statistics"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
