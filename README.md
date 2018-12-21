@@ -5,8 +5,8 @@ node RED.
 
 ## Installation
 
-Execute `npm install node-red-contrib-r-nodes` inside your Node RED root
-directory.
+Execute `npm install @innetmonitoring/node-red-contrib-r-nodes` inside your
+Node RED root directory.
 
 ## Setup your R-Server
 
