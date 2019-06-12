@@ -59,3 +59,7 @@ __Caution:__
 The variable type is not converted by this node. You have to make sure, the
 data types of the members you want to access or manipulate are represented by
 the correct datatype (e.g. array of floats).
+
+## Example
+
+A working example flow can be found on the [nodeRED flow repository](https://flows.nodered.org/flow/96b312540d537d708eb4d35b94684c42).
