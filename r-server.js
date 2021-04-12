@@ -32,20 +32,27 @@ module.exports = function(RED) {
             config = {
                 command: cmd,
                 callback: (err, message) => {
-                    if (err.code === "ECONNREFUSED") {
-                        this.connected = false
-                        for (var id in this.nodes) {
-                            if (this.nodes.hasOwnProperty(id)) {
-                                this.nodes[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
-                            }
-                        }
-                    } else if (!err && !this.connected) {
+                    if (!err && !this.connected) {
                         this.connected = true
                         for (var id in this.nodes) {
                             if (this.nodes.hasOwnProperty(id)) {
                                 this.nodes[id].status({fill: "green", shape: "dot", text: "node-red:common.status.connected"});
                             }
                         }
+                    } else if (err && err.code === "ECONNREFUSED") {
+                        this.connected = false
+                        for (var id in this.nodes) {
+                            if (this.nodes.hasOwnProperty(id)) {
+                                this.nodes[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
+                            }
+                        }
+                    } else if (!this.connected) {
+                        for (var id in this.nodes) {
+                            if (this.nodes.hasOwnProperty(id)) {
+                                this.nodes[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
+                            }
+                        }
+                        console.error("Unknown error.");
                     }
                     cb(err, message)
                 },
