@@ -1,6 +1,6 @@
 {
   "name": "@innetmonitoring/node-red-contrib-r-nodes",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Node RED modules for the statistical computing language R",
   "homepage": "https://github.com/inNETMonitoring/node-red-contrib-R-nodes",
   "keywords": [
