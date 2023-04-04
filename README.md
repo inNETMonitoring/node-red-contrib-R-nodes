@@ -4,8 +4,9 @@ A set of nodes which allows you to use the statistical computing language R in
 node RED.
 
 ## Installation
+Add `@inNETMonitoring:registry=https://npm.pkg.github.com/` to your .npmrc file.
 
-Execute `npm install @innetmonitoring/node-red-contrib-r-nodes` inside your
+Execute `npm install @inNETMonitoring/node-red-contrib-r-nodes` inside your
 Node RED root directory.
 
 ## Setup your R-Server

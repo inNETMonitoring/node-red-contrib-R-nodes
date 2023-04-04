@@ -9,8 +9,8 @@ module.exports = function(RED) {
         this.host = config.host || '127.0.0.1'
         this.port = config.port || 6311
 
-        this.user = this.credentials.username || ''
-        this.password = this.credentials.password || ''
+        this.user = this.credentials?.username || ''
+        this.password = this.credentials?.password || ''
 
         this.connected = false
         this.nodes = {}
