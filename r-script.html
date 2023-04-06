@@ -34,11 +34,11 @@
 
 <script type="text/x-red" data-help-name="R Script">
     <p>Run some R code on a R server.</p>
-    <p>This node passes the complete <code>msg</code> object to the R server
+    <p>This node passes <code>msg.payload</code> property to the R server
        where it gets converted to a R object. You can manipulate the complete
        object inside your R script using standard R code. After successful
-       execution, the <code>msg</code> object is sent back to this node and
-       sent to the next node(s).
+       execution, the <code>msg.payload</code> property is overwritten and the 
+       complete <code>msg</code> object is sent to the next node(s).
     </p>
     <h3>Parameters</h3>
     <h4>Server</h4>

@@ -7,22 +7,23 @@ module.exports = function(RED) {
 
         if (rserver) {
             const node = this;
-            rserver.register(this);
+            rserver.register(node);
 
             node.on('input', (msg) => {
                 try {
-                    let jsonStr = JSON.stringify(msg);
+                    let jsonStr = JSON.stringify(msg.payload);
                     jsonStr = jsonStr.replace(/'/g, "\\'"); // escape '
                     rserver.evaluate(
                     `
                         library(RJSONIO);
-                        msg <- fromJSON('${jsonStr}');
+                        payload <- fromJSON('${jsonStr}');
                         ${script}
-                        msg_json <- toJSON(msg);
+                        payload_json <- toJSON(payload);
                     `,
-                    (error, msg) => {
+                    (error, payload) => {
                         if (!error) {
-                            node.send(JSON.parse(msg));
+                            msg.payload = JSON.parse(payload)
+                            node.send(msg);
                         } else {
                             node.error(`Could not execute R Script: ${error}`)
                         }
