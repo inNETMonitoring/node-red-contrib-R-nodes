@@ -41,19 +41,19 @@ RServe.
 ### R Script
 
 The R Script node provides the possibility to write R code directly
-in node RED. When the node receives a `msg` it is copied to the R server and
-your script is executed afterwards. You can manipulate the `msg` object
-with default R code. After the code is successfully executed, the `msg` object
-is copied back to node red and emitted at the nodes output.
+in node RED. When the node receives a `msg` its `payload` is copied to the R server and
+your script is executed afterwards. You can manipulate the `msg.payload` property
+with default R code. After the code is successfully executed, the `payload` property
+is copied back to `msg` and is emitted at the nodes output.
 
 #### Sample R code
 
 Here is some sample code on how to access the `msg` object in R:
 
 ```R
-data <- msg$payload$data;
-msg$payload$mean <- mean(data);
-msg$payload$median <- median(data);
+data <- payload$data;
+payload$mean <- mean(data);
+payload$median <- median(data);
 ```
 
 __Caution:__  

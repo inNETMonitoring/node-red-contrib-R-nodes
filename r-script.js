@@ -11,20 +11,21 @@ module.exports = function(RED) {
 
             node.on('input', (msg) => {
                 try {
-                    let jsonStr = JSON.stringify(msg);
-                    jsonStr = jsonStr.replace(/'/g, "\\'"); // escape '
+                    let jsonStr = JSON.stringify(msg.payload);
+                    jsonStr = jsonStr.replace(/'/g, "\\'"); // escape ';
                     rserver.evaluate(
                     `
-                        library(RJSONIO);
-                        msg <- fromJSON('${jsonStr}');
+                        library(RJSONIO)
+                        payload <- fromJSON('${jsonStr}')
                         ${script}
-                        msg_json <- toJSON(msg);
+                        toJSON(payload)
                     `,
-                    (error, msg) => {
+                    (error, payload) => {
                         if (!error) {
-                            node.send(JSON.parse(msg));
+                            msg.payload = JSON.parse(payload);
+                            node.send(msg);
                         } else {
-                            node.error(`Could not execute R Script: ${error}`)
+                            node.error(`Could not execute R Script: ${error}`);
                         }
                     })
                 } catch (error) {
@@ -33,7 +34,7 @@ module.exports = function(RED) {
             })
 
             node.on('close', (done) => {
-                rserver.deregsiter(node, done)
+                rserver.deregsiter(node, done);
             })
         }
     }

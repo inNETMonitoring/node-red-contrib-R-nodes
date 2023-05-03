@@ -1,31 +1,27 @@
 module.exports = function(RED) {
     "use strict"
 
-    var r = require('rio')
+    var r = require('rio');
 
     function RServer(config) {
-        RED.nodes.createNode(this, config)
+        RED.nodes.createNode(this, config);
 
-        this.host = config.host || '127.0.0.1'
-        this.port = config.port || 6311
+        this.host = config.host || '127.0.0.1';
+        this.port = config.port || 6311;
 
-        this.user = this.credentials?.username || ''
-        this.password = this.credentials?.password || ''
+        this.user = this.credentials?.username || '';
+        this.password = this.credentials?.password || '';
 
-        this.connected = false
-        this.nodes = {}
+        this.connected = false;
+        this.nodes = {};
 
         this.register = (rNode) => {
-            this.nodes[rNode.id] = rNode
-            if (Object.keys(this.nodes).length === 1) {
-                // Connection test
-                this.evaluate('version', (err, msg) => {})
-            }
+            this.nodes[rNode.id] = rNode;
         }
 
         this.deregister = (rNode, done) => {
             delete this.nodes[rNode.id];
-            done()
+            done();
         }
 
         this.evaluate = (cmd, cb) =>  {
@@ -52,7 +48,7 @@ module.exports = function(RED) {
                                 this.nodes[id].status({fill:"red",shape:"ring",text:"node-red:common.status.disconnected"});
                             }
                         }
-                        console.error("Unknown error.");
+                        this.error("Unknown error.");
                     }
                     cb(err, message)
                 },
@@ -64,7 +60,7 @@ module.exports = function(RED) {
                 password: this.password
             }
 
-            r.evaluate(config)
+            r.evaluate(config);
         }
     }
 
